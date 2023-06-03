@@ -6,10 +6,12 @@ export default function ErrorPage() {
   console.error(error);
 
   return (
-    <div id="errorPage">
-      <h1>이런!</h1>
-      <p>죄송합니다. 예상치 못한 오류가 발생하였습니다.</p>
-      <p>{isRouteErrorResponse(error) && (error.statusText || error.data)}</p>
-    </div>
+    <React.Fragment>
+      <div id="errorPage">
+        <h1>이런!</h1>
+        <p>죄송합니다. 예상치 못한 오류가 발생하였습니다.</p>
+        <p>{isRouteErrorResponse(error) && (error.statusText || error.data)}</p>
+      </div>
+    </React.Fragment>
   );
 }

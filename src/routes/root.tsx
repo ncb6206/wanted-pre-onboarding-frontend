@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Button } from "antd";
 
 const RootDiv = styled.div`
   width: 100%;
@@ -18,13 +18,14 @@ export default function RootPage() {
     <React.Fragment>
       <RootDiv>
         <Link to={`signin`}>
-          <Button variant="outlined">로그인</Button>
+          <Button>로그인</Button>
         </Link>
         <Link to={`signup`}>
-          <Button variant="outlined">회원가입</Button>
+          <Button>회원가입</Button>
         </Link>
-
-        <Button variant="outlined">Todo List</Button>
+        <Link to={`todo`}>
+          <Button>Todo List</Button>
+        </Link>
       </RootDiv>
     </React.Fragment>
   );
