@@ -1,10 +1,10 @@
 import { Card, Button, Input, Modal } from "antd";
 import styled from "@emotion/styled";
-import { backUrl } from "api/backUrl.";
+import { backUrl } from "api/backUrl";
 import axios from "axios";
 import useInput from "hooks/useInput";
 import React, { useCallback, useEffect, useState, MouseEvent } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CardLayout = styled(Card)`
   padding: 10px;
@@ -35,14 +35,18 @@ const LoginForm = styled.form`
 `;
 
 export default function SignInPage() {
+  const navigate = useNavigate();
+  const accessToken = localStorage.getItem("access_token");
+
   const [disable, setDisable] = useState(true);
   const [email, onChangeEmail] = useInput<string>("");
   const [password, onChangePassword] = useInput<string>("");
-  const navigate = useNavigate();
 
-  if (localStorage.getItem("access_token")) {
-    redirect("/todo");
-  }
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/todo");
+    }
+  }, []);
 
   const onSubmitForm = useCallback(
     async (event: MouseEvent<HTMLFormElement>) => {

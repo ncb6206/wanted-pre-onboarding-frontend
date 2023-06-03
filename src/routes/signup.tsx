@@ -1,6 +1,6 @@
 import { Card, Button, Input, Modal } from "antd";
 import styled from "@emotion/styled";
-import { backUrl } from "api/backUrl.";
+import { backUrl } from "api/backUrl";
 import axios from "axios";
 import useInput from "hooks/useInput";
 import React, { MouseEvent, useCallback, useEffect, useState } from "react";
@@ -35,14 +35,18 @@ const SignUpForm = styled.form`
 `;
 
 export default function SignUpPage() {
+  const navigate = useNavigate();
+  const accessToken = localStorage.getItem("access_token");
+
   const [disable, setDisable] = useState(true);
   const [email, onChangeEmail] = useInput<string>("");
   const [password, onChangePassword] = useInput<string>("");
-  const navigate = useNavigate();
 
-  if (localStorage.getItem("access_token")) {
-    navigate("/todo");
-  }
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/todo");
+    }
+  }, []);
 
   const onSubmitForm = useCallback(
     async (event: MouseEvent<HTMLFormElement>) => {
@@ -77,7 +81,7 @@ export default function SignUpPage() {
         Modal.error({ content: "에러가 발생하였습니다" });
       }
     },
-    [email, password, navigate]
+    [email, password]
   );
 
   useEffect(() => {
