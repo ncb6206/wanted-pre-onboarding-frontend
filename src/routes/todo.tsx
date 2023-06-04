@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import { Button, Card, Checkbox, Input, Modal } from "antd";
-import { CheckboxChangeEvent } from "antd/es/checkbox";
+import { Button, Card, Input, Modal } from "antd";
 import { backUrl } from "api/backUrl";
 import axios from "axios";
 import TodoListPage from "components/TodoList";
@@ -34,7 +33,7 @@ const TodoList = styled.div`
   gap: 10px;
 `;
 
-interface ITodoList {
+interface ITodoLists {
   id: number;
   todo: string;
   isCompleted: boolean;
@@ -45,35 +44,33 @@ export default function TodoPage() {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("access_token");
 
-  const [todo, onChangeTodo] = useInput<string>("");
-  const [todoList, setTodoList] = useState<Array<ITodoList>>([]);
+  const [todo, onChangeTodo, setTodo] = useInput<string>("");
+  const [todoList, setTodoList] = useState<Array<ITodoLists>>([]);
 
   useEffect(() => {
     if (!accessToken) {
       navigate("/signin");
+    } else {
+      getTodos();
     }
   }, []);
 
-  useEffect(() => {
-    async function getTodos() {
-      const data = await axios
-        .get(`${backUrl}/todos`, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        })
-        .then((res) => {
-          console.log(res);
-          if (res.status === 200) {
-            return res.data;
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          Modal.error({ content: err.response.data.message });
-        });
-      setTodoList(data);
-    }
-    getTodos();
-  }, [todoList]);
+  const getTodos = useCallback(async () => {
+    await axios
+      .get(`${backUrl}/todos`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          setTodoList(res.data);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        Modal.error({ content: err.response.data.message });
+      });
+  }, [accessToken]);
 
   const onSubmitTodo = useCallback(async () => {
     await axios
@@ -90,6 +87,8 @@ export default function TodoPage() {
         console.log(res);
         if (res.status === 201) {
           Modal.success({ content: "투두리스트가 작성되었습니다." });
+          setTodo("");
+          getTodos();
         }
       })
       .catch((err) => {
@@ -104,7 +103,7 @@ export default function TodoPage() {
         <CardLayout>
           <TodoInput>
             <Input data-testid="new-todo-input" type="text" value={todo} onChange={onChangeTodo} />
-            <Button data-testid="new-todo-add-button" onSubmit={onSubmitTodo}>
+            <Button data-testid="new-todo-add-button" onClick={onSubmitTodo}>
               추가
             </Button>
           </TodoInput>
@@ -113,11 +112,13 @@ export default function TodoPage() {
               <ul>
                 {todoList.map((list) => (
                   <TodoListPage
+                    key={list.id}
                     id={list.id}
                     todo={list.todo}
                     isCompleted={list.isCompleted}
                     userId={list.userId}
                     accessToken={String(accessToken)}
+                    getTodos={getTodos}
                   />
                 ))}
               </ul>

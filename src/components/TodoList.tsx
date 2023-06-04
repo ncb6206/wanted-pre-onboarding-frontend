@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Checkbox, Input, Modal } from "antd";
-import { CheckboxChangeEvent } from "antd/es/checkbox";
+import { Button, Input, Modal } from "antd";
 import axios from "axios";
 import { backUrl } from "api/backUrl";
 import useInput from "hooks/useInput";
@@ -11,12 +10,21 @@ interface ITodoList {
   isCompleted: boolean;
   userId: number;
   accessToken: string;
+  getTodos: () => Promise<void>;
 }
 
 export default function TodoListPage(props: ITodoList) {
   const [todo, onChangeTodo] = useInput(props.todo);
-  const [updateFormOpend, setUpdateFormOpend] = useState(false);
+  const [isFormOpened, setIsFormOpened] = useState(false);
   const [isCompleted, setIsComplete] = useState(props.isCompleted);
+
+  const onChangeCompleted = useCallback(() => {
+    setIsComplete((prev) => !prev);
+  }, []);
+
+  const onChangeFormOpened = useCallback(() => {
+    setIsFormOpened((prev) => !prev);
+  }, []);
 
   const updateTodo = useCallback(
     (listId: number) => async () => {
@@ -38,6 +46,7 @@ export default function TodoListPage(props: ITodoList) {
           console.log(res);
           if (res.status === 200) {
             Modal.success({ content: "업데이트 되었습니다." });
+            props.getTodos();
             onChangeFormOpened();
           }
         })
@@ -58,6 +67,7 @@ export default function TodoListPage(props: ITodoList) {
         .then((res) => {
           if (res.status === 204) {
             Modal.success({ content: "삭제되었습니다." });
+            props.getTodos();
           }
         })
         .catch((err) => {
@@ -68,28 +78,32 @@ export default function TodoListPage(props: ITodoList) {
     []
   );
 
-  const onChangeCheckbox = useCallback((event: CheckboxChangeEvent) => {
-    setIsComplete(event.target.checked);
-  }, []);
-
-  const onChangeFormOpened = useCallback(() => {
-    setUpdateFormOpend((prev) => !prev);
-  }, []);
-
   return (
     <li>
-      <Checkbox value={isCompleted} onChange={onChangeCheckbox}></Checkbox>
-      {updateFormOpend ? (
+      {isFormOpened && (
         <>
-          <Input value={todo} onChange={onChangeTodo} />
-          <Button onSubmit={updateTodo(props.id)}>제출</Button>
-          <Button onClick={onChangeFormOpened}>취소</Button>
+          <input type="checkbox" onChange={onChangeCompleted} checked={isCompleted} />
+          <Input data-testid="modify-input" value={todo} onChange={onChangeTodo} />
+          <Button data-testid="submit-button" onClick={updateTodo(props.id)}>
+            제출
+          </Button>
+          <Button data-testid="cancel-button" onClick={onChangeFormOpened}>
+            취소
+          </Button>
         </>
-      ) : (
+      )}
+      {!isFormOpened && (
         <>
-          <a>{props.todo}</a>
-          <Button onClick={onChangeFormOpened}>수정</Button>
-          <Button onClick={deleteTodo(props.id)}>삭제</Button>
+          <label>
+            <input type="checkbox" onChange={onChangeCompleted} checked={isCompleted} />
+            <span>{props.todo}</span>
+          </label>
+          <Button data-testid="modify-button" onClick={onChangeFormOpened}>
+            수정
+          </Button>
+          <Button data-testid="delete-button" onClick={deleteTodo(props.id)}>
+            삭제
+          </Button>
         </>
       )}
     </li>
