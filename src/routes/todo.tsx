@@ -30,7 +30,6 @@ const TodoList = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 10px;
 `;
 
 interface ITodoLists {
@@ -101,6 +100,7 @@ export default function TodoPage() {
     <React.Fragment>
       <div>
         <CardLayout>
+          <h1>TodoList</h1>
           <TodoInput>
             <Input data-testid="new-todo-input" type="text" value={todo} onChange={onChangeTodo} />
             <Button data-testid="new-todo-add-button" onClick={onSubmitTodo}>
