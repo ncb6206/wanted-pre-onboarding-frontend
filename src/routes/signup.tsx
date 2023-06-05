@@ -14,6 +14,7 @@ const CardLayout = styled(Card)`
   align-items: center;
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
 `;
 
 const SignUpForm = styled.form`
@@ -23,6 +24,11 @@ const SignUpForm = styled.form`
   justify-content: center;
   align-items: center;
   gap: 20px;
+
+  p {
+    text-align: center;
+    font-size: 30px;
+  }
 
   label {
     width: 100%;
@@ -94,36 +100,34 @@ export default function SignUpPage() {
 
   return (
     <React.Fragment>
-      <div>
-        <CardLayout>
-          <SignUpForm onSubmit={onSubmitForm}>
-            <h1>회원가입</h1>
-            <label htmlFor="email-input">이메일</label>
-            <Input
-              data-testid="email-input"
-              id="email-input"
-              type="email"
-              placeholder="email"
-              value={email}
-              onChange={onChangeEmail}
-              required
-            />
-            <label htmlFor="password-input">패스워드</label>
-            <Input
-              data-testid="password-input"
-              id="password-input"
-              type="password"
-              placeholder="password"
-              value={password}
-              onChange={onChangePassword}
-              required
-            />
-            <Button data-testid="signup-button" htmlType="submit" type="primary" disabled={disable}>
-              회원가입
-            </Button>
-          </SignUpForm>
-        </CardLayout>
-      </div>
+      <CardLayout>
+        <SignUpForm onSubmit={onSubmitForm}>
+          <p>회원가입</p>
+          <label htmlFor="email-input">이메일</label>
+          <Input
+            data-testid="email-input"
+            id="email-input"
+            type="email"
+            placeholder="email"
+            value={email}
+            onChange={onChangeEmail}
+            required
+          />
+          <label htmlFor="password-input">패스워드</label>
+          <Input
+            data-testid="password-input"
+            id="password-input"
+            type="password"
+            placeholder="password"
+            value={password}
+            onChange={onChangePassword}
+            required
+          />
+          <Button data-testid="signup-button" htmlType="submit" type="primary" disabled={disable}>
+            회원가입
+          </Button>
+        </SignUpForm>
+      </CardLayout>
     </React.Fragment>
   );
 }
