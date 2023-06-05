@@ -32,6 +32,11 @@ const TodoList = styled.div`
   align-items: center;
 `;
 
+const P = styled.p`
+  text-align: center;
+  font-size: 50px;
+`;
+
 interface ITodoLists {
   id: number;
   todo: string;
@@ -100,7 +105,7 @@ export default function TodoPage() {
     <React.Fragment>
       <div>
         <CardLayout>
-          <h1>TodoList</h1>
+          <P>TodoList</P>
           <TodoInput>
             <Input data-testid="new-todo-input" type="text" value={todo} onChange={onChangeTodo} />
             <Button data-testid="new-todo-add-button" onClick={onSubmitTodo}>
