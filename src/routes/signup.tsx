@@ -7,7 +7,7 @@ import React, { MouseEvent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CardLayout = styled(Card)`
-  padding: 10px;
+  padding: 20px 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,10 +33,12 @@ const SignUpForm = styled.form`
   label {
     width: 100%;
     text-align: left;
+    font-size: 20px;
   }
 
   Button {
     width: 100%;
+    margin-top: 20px;
   }
 `;
 

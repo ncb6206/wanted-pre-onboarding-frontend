@@ -14,10 +14,6 @@ interface ITodoList {
   getTodos: () => Promise<void>;
 }
 
-const TodoListLi = styled.li`
-  margin: 10px 0;
-`;
-
 const TodoListDiv = styled.div`
   display: flex;
   flex-direction: row;
@@ -33,7 +29,7 @@ const TodoListDiv = styled.div`
 `;
 
 export default function TodoListPage(props: ITodoList) {
-  const [todo, onChangeTodo] = useInput(props.todo);
+  const [todo, onChangeTodo, setTodo] = useInput(props.todo);
   const [isFormOpened, setIsFormOpened] = useState(false);
   const [isCompleted, setIsComplete] = useState(props.isCompleted);
 
@@ -43,6 +39,11 @@ export default function TodoListPage(props: ITodoList) {
 
   const onChangeFormOpened = useCallback(() => {
     setIsFormOpened((prev) => !prev);
+  }, []);
+
+  const onCancelForm = useCallback(() => {
+    setIsFormOpened((prev) => !prev);
+    setTodo(props.todo);
   }, []);
 
   const updateTodo = useCallback(
@@ -98,15 +99,17 @@ export default function TodoListPage(props: ITodoList) {
   );
 
   return (
-    <TodoListLi>
+    <li style={{ margin: "10px 0" }}>
       {isFormOpened && (
         <TodoListDiv>
-          <input type="checkbox" onChange={onChangeCompleted} checked={isCompleted} />
+          <label>
+            <input type="checkbox" onChange={onChangeCompleted} checked={isCompleted} />
+          </label>
           <Input data-testid="modify-input" value={todo} onChange={onChangeTodo} />
           <Button data-testid="submit-button" onClick={updateTodo(props.id)}>
             제출
           </Button>
-          <Button data-testid="cancel-button" onClick={onChangeFormOpened}>
+          <Button data-testid="cancel-button" onClick={onCancelForm}>
             취소
           </Button>
         </TodoListDiv>
@@ -125,6 +128,6 @@ export default function TodoListPage(props: ITodoList) {
           </Button>
         </TodoListDiv>
       )}
-    </TodoListLi>
+    </li>
   );
 }

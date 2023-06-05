@@ -7,9 +7,7 @@ import React, { useCallback, useEffect, useState, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CardLayout = styled(Card)`
-  width: 300px;
-  height: 500px;
-  padding: 10px;
+  padding: 20px 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,9 +19,10 @@ const CardLayout = styled(Card)`
 
 const LoginForm = styled.form`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 20px;
 
@@ -35,10 +34,12 @@ const LoginForm = styled.form`
   label {
     width: 100%;
     text-align: left;
+    font-size: 20px;
   }
 
   Button {
     width: 100%;
+    margin-top: 20px;
   }
 `;
 
