@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 import { Button, Card, Input, Modal } from "antd";
 import { backUrl } from "api/backUrl";
 import axios from "axios";
-import TodoListPage from "components/TodoList";
+import ToHomeButton from "components/toHome";
+import TodoListPage from "components/todoList";
 import useInput from "hooks/useInput";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -102,34 +103,33 @@ export default function TodoPage() {
 
   return (
     <React.Fragment>
-      <div>
-        <CardLayout>
-          <P>TodoList</P>
-          <TodoInput>
-            <Input data-testid="new-todo-input" type="text" value={todo} onChange={onChangeTodo} />
-            <Button data-testid="new-todo-add-button" onClick={onSubmitTodo}>
-              추가
-            </Button>
-          </TodoInput>
-          <TodoList>
-            {todoList && (
-              <ul>
-                {todoList.map((list) => (
-                  <TodoListPage
-                    key={list.id}
-                    id={list.id}
-                    todo={list.todo}
-                    isCompleted={list.isCompleted}
-                    userId={list.userId}
-                    accessToken={String(accessToken)}
-                    getTodos={getTodos}
-                  />
-                ))}
-              </ul>
-            )}
-          </TodoList>
-        </CardLayout>
-      </div>
+      <CardLayout>
+        <P>TodoList</P>
+        <TodoInput>
+          <Input data-testid="new-todo-input" type="text" value={todo} onChange={onChangeTodo} />
+          <Button data-testid="new-todo-add-button" onClick={onSubmitTodo}>
+            추가
+          </Button>
+        </TodoInput>
+        <TodoList>
+          {todoList && (
+            <ul>
+              {todoList.map((list) => (
+                <TodoListPage
+                  key={list.id}
+                  id={list.id}
+                  todo={list.todo}
+                  isCompleted={list.isCompleted}
+                  userId={list.userId}
+                  accessToken={String(accessToken)}
+                  getTodos={getTodos}
+                />
+              ))}
+            </ul>
+          )}
+        </TodoList>
+      </CardLayout>
+      <ToHomeButton />
     </React.Fragment>
   );
 }

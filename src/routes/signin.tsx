@@ -5,6 +5,7 @@ import axios from "axios";
 import useInput from "hooks/useInput";
 import React, { useCallback, useEffect, useState, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import ToHomeButton from "components/toHome";
 
 const CardLayout = styled(Card)`
   padding: 20px 60px;
@@ -127,6 +128,7 @@ export default function SignInPage() {
           </Button>
         </LoginForm>
       </CardLayout>
+      <ToHomeButton />
     </React.Fragment>
   );
 }
