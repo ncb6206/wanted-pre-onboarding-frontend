@@ -53,45 +53,40 @@ export default function SignInPage() {
 
   useEffect(() => {
     if (accessToken) {
-      navigate("/todo");
+      return navigate("/todo");
     }
-  }, []);
+  }, [accessToken, navigate]);
 
   const onSubmitForm = useCallback(
     async (event: MouseEvent<HTMLFormElement>) => {
       event.preventDefault();
-      try {
-        await axios
-          .post(
-            `${backUrl}/auth/signin`,
-            {
-              email,
-              password,
+      await axios
+        .post(
+          `${backUrl}/auth/signin`,
+          {
+            email,
+            password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
             },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then((res) => {
-            console.log(res);
-            if (res.status === 200) {
-              Modal.success({ content: "로그인되었습니다." });
-              localStorage.setItem("access_token", res.data.access_token);
-              return navigate("/todo");
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-            Modal.error({ content: err.message });
-          });
-      } catch (err) {
-        console.error(err);
-        Modal.error({ content: "에러가 발생하였습니다" });
-      }
+          }
+        )
+        .then((res) => {
+          // console.log(res);
+          if (res.status === 200) {
+            Modal.success({ content: "로그인되었습니다." });
+            localStorage.setItem("access_token", res.data.access_token);
+            return navigate("/todo");
+          }
+        })
+        .catch((err) => {
+          // console.error(err);
+          Modal.error({ content: err.message });
+        });
     },
-    [email, password, navigate]
+    [email, navigate, password]
   );
 
   useEffect(() => {

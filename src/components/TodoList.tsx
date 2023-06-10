@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Button, Input, Modal } from "antd";
 import axios from "axios";
 import { backUrl } from "api/backUrl";
@@ -44,7 +44,7 @@ export default function TodoListPage(props: ITodoList) {
   const onCancelForm = useCallback(() => {
     setIsFormOpened((prev) => !prev);
     setTodo(props.todo);
-  }, []);
+  }, [props.todo, setTodo]);
 
   const updateTodo = useCallback(
     (listId: number) => async () => {
@@ -63,7 +63,7 @@ export default function TodoListPage(props: ITodoList) {
           }
         )
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.status === 200) {
             Modal.success({ content: "업데이트 되었습니다." });
             props.getTodos();
@@ -71,11 +71,11 @@ export default function TodoListPage(props: ITodoList) {
           }
         })
         .catch((err) => {
-          console.error(err);
+          // console.error(err);
           Modal.error({ content: err.response.data.message });
         });
     },
-    [todo, isCompleted]
+    [todo, isCompleted, props, onChangeFormOpened]
   );
 
   const deleteTodo = useCallback(
@@ -91,11 +91,11 @@ export default function TodoListPage(props: ITodoList) {
           }
         })
         .catch((err) => {
-          console.error(err);
+          // console.error(err);
           Modal.error({ content: err.response.data.message });
         });
     },
-    []
+    [props]
   );
 
   return (

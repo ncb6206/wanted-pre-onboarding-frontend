@@ -51,27 +51,19 @@ export default function TodoPage() {
   const [todo, onChangeTodo, setTodo] = useInput<string>("");
   const [todoList, setTodoList] = useState<Array<ITodoLists>>([]);
 
-  useEffect(() => {
-    if (!accessToken) {
-      navigate("/signin");
-    } else {
-      getTodos();
-    }
-  }, []);
-
   const getTodos = useCallback(async () => {
     await axios
       .get(`${backUrl}/todos`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200) {
           setTodoList(res.data);
         }
       })
       .catch((err) => {
-        console.error(err);
+        // console.error(err);
         Modal.error({ content: err.response.data.message });
       });
   }, [accessToken]);
@@ -88,7 +80,7 @@ export default function TodoPage() {
         }
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 201) {
           Modal.success({ content: "투두리스트가 작성되었습니다." });
           setTodo("");
@@ -96,10 +88,17 @@ export default function TodoPage() {
         }
       })
       .catch((err) => {
-        console.error(err);
+        // console.error(err);
         Modal.error({ content: err.response.data.message });
       });
-  }, [todo]);
+  }, [accessToken, getTodos, setTodo, todo]);
+
+  useEffect(() => {
+    if (!accessToken) {
+      return navigate("/signin");
+    }
+    getTodos();
+  }, [accessToken, getTodos, navigate]);
 
   return (
     <React.Fragment>

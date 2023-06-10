@@ -52,44 +52,39 @@ export default function SignUpPage() {
 
   useEffect(() => {
     if (accessToken) {
-      navigate("/todo");
+      return navigate("/todo");
     }
-  }, []);
+  }, [accessToken, navigate]);
 
   const onSubmitForm = useCallback(
     async (event: MouseEvent<HTMLFormElement>) => {
       event.preventDefault();
-      try {
-        await axios
-          .post(
-            `${backUrl}/auth/signup`,
-            {
-              email,
-              password,
+      await axios
+        .post(
+          `${backUrl}/auth/signup`,
+          {
+            email,
+            password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
             },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then((res) => {
-            console.log(res);
-            if (res.status === 201) {
-              Modal.success({ content: "회원가입이 완료되었습니다." });
-              return navigate("/signin");
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-            Modal.error({ content: err.response.data.message });
-          });
-      } catch (error) {
-        console.error(error);
-        Modal.error({ content: "에러가 발생하였습니다" });
-      }
+          }
+        )
+        .then((res) => {
+          // console.log(res);
+          if (res.status === 201) {
+            Modal.success({ content: "회원가입이 완료되었습니다." });
+            return navigate("/signin");
+          }
+        })
+        .catch((err) => {
+          // console.error(err);
+          Modal.error({ content: err.response.data.message });
+        });
     },
-    [email, password]
+    [email, navigate, password]
   );
 
   useEffect(() => {
