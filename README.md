@@ -9,7 +9,7 @@
 ## 프로젝트의 실행 방법
 ```bash
 npm install
-npm run start
+npm start
 ```  
 
 ## 배포 사이트
