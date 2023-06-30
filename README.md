@@ -22,24 +22,28 @@ Top-down 방식을 사용하여 프로젝트의 전체적인 구조를 먼저 �
 
 ## 디렉토리 구조
 
+```bash
+
+📦 src
+├── 📂 api
+├── 📂 component
+│   ├── 📄 TodoList
+│   └── 📄 toHome
+├── 📂 hooks
+├── 📂 routes
+│   ├── 📄 root
+│   ├── 📄 signin
+│   ├── 📄 signup
+│   └── 📄 todo
+└── 📂 styles
+
 ```
-📦
-├─ src
-│  ├─ api
-│  ├─ components
-│  ├─ hooks
-│  ├─ routes
-│  │  ├─ root(Home)
-│  │  ├─ signin
-│  │  ├─ signup
-│  │  └─ todo
-└─ └─ styles
-```
-- 백엔드 uri를 사용하기 위하여 api폴더를 만들었습니다.<br/>
-- 프로젝트의 컴포넌트 구조를 정의하고, 컴포넌트들을 관리하기 위해 components폴더를 만들었습니다.<br/>
-- customhook을 사용하기 위하여 hooks폴더를 만들었습니다.<br/>
-- 페이지를 구성하는 컴포넌트들을 정의하기 위해 route폴더를 만들었습니다.<br/>
-- resetCSS를 사용하기 위하여 styles폴더를 만들었습니다.
+
+- api폴더 : 백엔드 uri를 사용하였습니다.<br/>
+- components폴더 : 프로젝트의 컴포넌트 구조를 정의하고, 컴포넌트들을 관리하였습니다.<br/>
+- hooks폴더 : customhook을 사용하였습니다.<br/>
+- route폴더 : 페이지를 구성하는 컴포넌트들을 정의하였습니다.<br/>
+- styles폴더 : 스타일을 정의하였습니다.
 
 ## 사용 라이브러리
 
