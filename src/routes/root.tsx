@@ -45,7 +45,7 @@ export default function RootPage() {
   return (
     <React.Fragment>
       <CardLayout>
-        <LogoImg alt="원티드 프리온보딩 프론트엔드" src="/images/logo.png" />
+        <LogoImg alt="TodoList" src="/images/logo.png" />
         <P>TodoList</P>
         <ButtonDiv>
           <Link to={`signin`}>
