@@ -71,7 +71,7 @@ export default function SignUpPage() {
             headers: {
               "Content-Type": "application/json",
             },
-          }
+          },
         )
         .then((res) => {
           // console.log(res);
@@ -85,7 +85,7 @@ export default function SignUpPage() {
           Modal.error({ content: err.response.data.message });
         });
     },
-    [email, navigate, password]
+    [email, navigate, password],
   );
 
   useEffect(() => {
@@ -121,7 +121,12 @@ export default function SignUpPage() {
             onChange={onChangePassword}
             required
           />
-          <Button data-testid="signup-button" htmlType="submit" type="primary" disabled={disable}>
+          <Button
+            data-testid="signup-button"
+            htmlType="submit"
+            type="primary"
+            disabled={disable}
+          >
             회원가입
           </Button>
         </SignUpForm>

@@ -60,7 +60,7 @@ export default function TodoListPage(props: ITodoList) {
               Authorization: `Bearer ${props.accessToken}`,
               "Content-Type": "application/json",
             },
-          }
+          },
         )
         .then((res) => {
           // console.log(res);
@@ -75,7 +75,7 @@ export default function TodoListPage(props: ITodoList) {
           Modal.error({ content: err.response.data.message });
         });
     },
-    [todo, isCompleted, props, onChangeFormOpened]
+    [todo, isCompleted, props, onChangeFormOpened],
   );
 
   const deleteTodo = useCallback(
@@ -95,7 +95,7 @@ export default function TodoListPage(props: ITodoList) {
           Modal.error({ content: err.response.data.message });
         });
     },
-    [props]
+    [props],
   );
 
   return (
@@ -103,9 +103,17 @@ export default function TodoListPage(props: ITodoList) {
       {isFormOpened && (
         <TodoListDiv>
           <label>
-            <input type="checkbox" onChange={onChangeCompleted} checked={isCompleted} />
+            <input
+              type="checkbox"
+              onChange={onChangeCompleted}
+              checked={isCompleted}
+            />
           </label>
-          <Input data-testid="modify-input" value={todo} onChange={onChangeTodo} />
+          <Input
+            data-testid="modify-input"
+            value={todo}
+            onChange={onChangeTodo}
+          />
           <Button data-testid="submit-button" onClick={updateTodo(props.id)}>
             제출
           </Button>
@@ -117,7 +125,11 @@ export default function TodoListPage(props: ITodoList) {
       {!isFormOpened && (
         <TodoListDiv>
           <label>
-            <input type="checkbox" onChange={onChangeCompleted} checked={isCompleted} />
+            <input
+              type="checkbox"
+              onChange={onChangeCompleted}
+              checked={isCompleted}
+            />
             <span>{props.todo}</span>
           </label>
           <Button data-testid="modify-button" onClick={onChangeFormOpened}>

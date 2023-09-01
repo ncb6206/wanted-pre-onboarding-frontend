@@ -72,7 +72,7 @@ export default function SignInPage() {
             headers: {
               "Content-Type": "application/json",
             },
-          }
+          },
         )
         .then((res) => {
           // console.log(res);
@@ -87,7 +87,7 @@ export default function SignInPage() {
           Modal.error({ content: err.message });
         });
     },
-    [email, navigate, password]
+    [email, navigate, password],
   );
 
   useEffect(() => {
@@ -123,7 +123,12 @@ export default function SignInPage() {
             onChange={onChangePassword}
             required
           />
-          <Button data-testid="signin-button" htmlType="submit" type="primary" disabled={disable}>
+          <Button
+            data-testid="signin-button"
+            htmlType="submit"
+            type="primary"
+            disabled={disable}
+          >
             로그인
           </Button>
         </LoginForm>

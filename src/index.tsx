@@ -51,5 +51,5 @@ root.render(
     <Layout>
       <RouterProvider router={router} />
     </Layout>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

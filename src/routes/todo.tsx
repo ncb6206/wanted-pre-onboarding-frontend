@@ -77,8 +77,11 @@ export default function TodoPage() {
           todo,
         },
         {
-          headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
-        }
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        },
       )
       .then((res) => {
         // console.log(res);
@@ -106,7 +109,12 @@ export default function TodoPage() {
       <CardLayout>
         <P>TodoList</P>
         <TodoInput>
-          <Input data-testid="new-todo-input" type="text" value={todo} onChange={onChangeTodo} />
+          <Input
+            data-testid="new-todo-input"
+            type="text"
+            value={todo}
+            onChange={onChangeTodo}
+          />
           <Button data-testid="new-todo-add-button" onClick={onSubmitTodo}>
             추가
           </Button>
