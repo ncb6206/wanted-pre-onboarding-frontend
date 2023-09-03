@@ -55,7 +55,7 @@ export default function RootPage() {
             <Button>회원가입</Button>
           </Link>
           <Link to={`todo`}>
-            <Button>Todo List</Button>
+            <Button>투두리스트</Button>
           </Link>
         </ButtonDiv>
       </CardLayout>
