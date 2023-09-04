@@ -1,99 +1,46 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { Button, Input, Modal } from "antd";
-import axios from "axios";
-import { backUrl } from "api/backUrl";
 import useInput from "hooks/useInput";
 import styled from "@emotion/styled";
-
-interface ITodoList {
-  id: number;
-  todo: string;
-  isCompleted: boolean;
-  userId: number;
-  accessToken: string;
-  getTodos: () => Promise<void>;
-}
-
-const TodoListDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-
-  label {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-  }
-`;
+import { ITodoList } from "models/api";
+import { delTodo, refreshTodo } from "service/todo";
+import useOpen from "hooks/useOpen";
 
 export default function TodoListPage(props: ITodoList) {
   const [todo, onChangeTodo, setTodo] = useInput(props.todo);
-  const [isFormOpened, setIsFormOpened] = useState(false);
-  const [isCompleted, setIsComplete] = useState(props.isCompleted);
-
-  const onChangeCompleted = useCallback(() => {
-    setIsComplete((prev) => !prev);
-  }, []);
-
-  const onChangeFormOpened = useCallback(() => {
-    setIsFormOpened((prev) => !prev);
-  }, []);
+  const { isOpened: isFormOpened, onChangeOpened: onChangeFormOpened } =
+    useOpen(false);
+  const { isOpened: isCompleted, onChangeOpened: onChangeCompleted } = useOpen(
+    props.isCompleted,
+  );
 
   const onCancelForm = useCallback(() => {
-    setIsFormOpened((prev) => !prev);
+    onChangeFormOpened();
     setTodo(props.todo);
-  }, [props.todo, setTodo]);
+  }, [onChangeFormOpened, props.todo, setTodo]);
 
   const updateTodo = useCallback(
     (listId: number) => async () => {
-      await axios
-        .put(
-          `${backUrl}/todos/${listId}`,
-          {
-            todo,
-            isCompleted,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${props.accessToken}`,
-              "Content-Type": "application/json",
-            },
-          },
-        )
-        .then((res) => {
-          // console.log(res);
-          if (res.status === 200) {
-            Modal.success({ content: "업데이트 되었습니다." });
-            props.getTodos();
-            onChangeFormOpened();
-          }
-        })
-        .catch((err) => {
-          // console.error(err);
-          Modal.error({ content: err.response.data.message });
-        });
+      const response: any = await refreshTodo({ listId, todo, isCompleted });
+
+      console.log(response);
+      if (response.status === 200) {
+        Modal.success({ content: "업데이트 되었습니다." });
+        props.getTodos();
+        onChangeFormOpened();
+      }
     },
     [todo, isCompleted, props, onChangeFormOpened],
   );
 
   const deleteTodo = useCallback(
     (listId: number) => async () => {
-      await axios
-        .delete(`${backUrl}/todos/${listId}`, {
-          headers: { Authorization: `Bearer ${props.accessToken}` },
-        })
-        .then((res) => {
-          if (res.status === 204) {
-            Modal.success({ content: "삭제되었습니다." });
-            props.getTodos();
-          }
-        })
-        .catch((err) => {
-          // console.error(err);
-          Modal.error({ content: err.response.data.message });
-        });
+      const response: any = await delTodo(listId);
+
+      if (response.status === 204) {
+        Modal.success({ content: "삭제되었습니다." });
+        props.getTodos();
+      }
     },
     [props],
   );
@@ -102,44 +49,78 @@ export default function TodoListPage(props: ITodoList) {
     <li style={{ margin: "10px 0" }}>
       {isFormOpened && (
         <TodoListDiv>
-          <label>
+          <Label>
             <input
               type="checkbox"
               onChange={onChangeCompleted}
               checked={isCompleted}
             />
-          </label>
-          <Input
-            data-testid="modify-input"
-            value={todo}
-            onChange={onChangeTodo}
-          />
-          <Button data-testid="submit-button" onClick={updateTodo(props.id)}>
-            제출
-          </Button>
-          <Button data-testid="cancel-button" onClick={onCancelForm}>
-            취소
-          </Button>
+            <TodoInput
+              data-testid="modify-input"
+              value={todo}
+              onChange={onChangeTodo}
+            />
+          </Label>
+          <ButtonDiv>
+            <Button data-testid="submit-button" onClick={updateTodo(props.id)}>
+              제출
+            </Button>
+            <Button data-testid="cancel-button" onClick={onCancelForm}>
+              취소
+            </Button>
+          </ButtonDiv>
         </TodoListDiv>
       )}
+
       {!isFormOpened && (
         <TodoListDiv>
-          <label>
+          <Label>
             <input
               type="checkbox"
               onChange={onChangeCompleted}
               checked={isCompleted}
             />
-            <span>{props.todo}</span>
-          </label>
-          <Button data-testid="modify-button" onClick={onChangeFormOpened}>
-            수정
-          </Button>
-          <Button data-testid="delete-button" onClick={deleteTodo(props.id)}>
-            삭제
-          </Button>
+            <Span>{props.todo}</Span>
+          </Label>
+          <ButtonDiv>
+            <Button data-testid="modify-button" onClick={onChangeFormOpened}>
+              수정
+            </Button>
+            <Button data-testid="delete-button" onClick={deleteTodo(props.id)}>
+              삭제
+            </Button>
+          </ButtonDiv>
         </TodoListDiv>
       )}
     </li>
   );
 }
+
+const TodoListDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.6rem;
+`;
+
+const Label = styled.label`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.6rem;
+`;
+
+const Span = styled.span`
+  width: 20rem;
+`;
+
+const TodoInput = styled(Input)`
+  width: 20rem;
+`;
+
+const ButtonDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.6rem;
+`;
