@@ -1,99 +1,35 @@
 import { Card, Button, Input, Modal } from "antd";
 import styled from "@emotion/styled";
-import { backUrl } from "api/backUrl";
-import axios from "axios";
 import useInput from "hooks/useInput";
 import React, { MouseEvent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ToHomeButton from "components/toHome";
-
-const CardLayout = styled(Card)`
-  padding: 20px 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: #ffffff;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
-  border-radius: 30px;
-`;
-
-const SignUpForm = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-
-  p {
-    text-align: center;
-    font-size: 30px;
-  }
-
-  label {
-    width: 100%;
-    text-align: left;
-    font-size: 20px;
-  }
-
-  Button {
-    width: 100%;
-    margin-top: 20px;
-  }
-`;
+import { signUpUser } from "service/auth";
+import isValid from "components/common/utils/valid";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem("access_token");
-
   const [disable, setDisable] = useState(true);
   const [email, onChangeEmail] = useInput<string>("");
   const [password, onChangePassword] = useInput<string>("");
 
-  useEffect(() => {
-    if (accessToken) {
-      return navigate("/todo");
-    }
-  }, [accessToken, navigate]);
-
   const onSubmitForm = useCallback(
     async (event: MouseEvent<HTMLFormElement>) => {
       event.preventDefault();
-      await axios
-        .post(
-          `${backUrl}/auth/signup`,
-          {
-            email,
-            password,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
-        )
-        .then((res) => {
-          // console.log(res);
-          if (res.status === 201) {
-            Modal.success({ content: "회원가입이 완료되었습니다." });
-            return navigate("/signin");
-          }
-        })
-        .catch((err) => {
-          // console.error(err);
-          Modal.error({ content: err.response.data.message });
-        });
+      const response: any = await signUpUser({ email, password });
+
+      console.log(response);
+      if (response.status === 201) {
+        Modal.success({ content: "회원가입이 완료되었습니다." });
+        return navigate("/signin");
+      }
     },
-    [email, navigate, password],
+    [email, password, navigate],
   );
 
   useEffect(() => {
-    if (!!email.match(/.*@.*/) && !!password.match(/^.{8,}$/)) {
-      setDisable(false);
-    } else {
-      setDisable(true);
-    }
+    const valid = isValid({ email, password });
+    setDisable(valid);
   }, [email, password]);
 
   return (
@@ -135,3 +71,39 @@ export default function SignUpPage() {
     </React.Fragment>
   );
 }
+
+const CardLayout = styled(Card)`
+  padding: 20px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+`;
+
+const SignUpForm = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  p {
+    text-align: center;
+    font-size: 30px;
+  }
+
+  label {
+    width: 100%;
+    text-align: left;
+    font-size: 20px;
+  }
+
+  Button {
+    width: 100%;
+    margin-top: 20px;
+  }
+`;
