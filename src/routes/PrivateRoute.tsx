@@ -1,8 +1,10 @@
+import AccessTokenContext from "contexts/AccessTokenContext";
+import { useContext } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 const PrivateRoute = () => {
   const { pathname } = useLocation();
-  const accessToken = localStorage.getItem("access_token");
+  const { accessToken } = useContext(AccessTokenContext);
 
   if (pathname === "/") {
     return <Outlet />;
