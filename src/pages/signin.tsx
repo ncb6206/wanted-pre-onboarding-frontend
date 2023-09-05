@@ -3,12 +3,14 @@ import styled from "@emotion/styled";
 import useInput from "hooks/useInput";
 import React, { useCallback, useEffect, useState, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import ToHomeButton from "components/toHome";
 import { signInUser } from "service/auth";
+import { useContext } from "react";
 import isValid from "components/common/utils/valid";
+import AccessTokenContext from "contexts/AccessTokenContext";
 
 export default function SignInPage() {
   const navigate = useNavigate();
+  const { setAccessToken } = useContext(AccessTokenContext);
   const [disable, setDisable] = useState(true);
   const [email, onChangeEmail] = useInput<string>("");
   const [password, onChangePassword] = useInput<string>("");
@@ -18,14 +20,16 @@ export default function SignInPage() {
       event.preventDefault();
       const response: any = await signInUser({ email, password });
 
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         Modal.success({ content: "로그인되었습니다." });
         localStorage.setItem("access_token", response.data.access_token);
+        const token = localStorage.getItem("access_token");
+        setAccessToken(String(token));
         return navigate("/todo");
       }
     },
-    [email, navigate, password],
+    [email, navigate, password, setAccessToken],
   );
 
   useEffect(() => {
@@ -68,7 +72,6 @@ export default function SignInPage() {
           </Button>
         </LoginForm>
       </CardLayout>
-      <ToHomeButton />
     </React.Fragment>
   );
 }
@@ -82,6 +85,7 @@ const CardLayout = styled(Card)`
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
   border-radius: 30px;
+  font-family: "Noto Sans KR", sans-serif;
 `;
 
 const LoginForm = styled.form`
