@@ -23,7 +23,7 @@ export default function TodoListPage(props: ITodoList) {
     (listId: number) => async () => {
       const response: any = await refreshTodo({ listId, todo, isCompleted });
 
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         Modal.success({ content: "업데이트 되었습니다." });
         props.getTodos();

@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import useInput from "hooks/useInput";
 import React, { MouseEvent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ToHomeButton from "components/toHome";
 import { signUpUser } from "service/auth";
 import isValid from "components/common/utils/valid";
 
@@ -18,7 +17,7 @@ export default function SignUpPage() {
       event.preventDefault();
       const response: any = await signUpUser({ email, password });
 
-      console.log(response);
+      // console.log(response);
       if (response.status === 201) {
         Modal.success({ content: "회원가입이 완료되었습니다." });
         return navigate("/signin");
@@ -67,7 +66,6 @@ export default function SignUpPage() {
           </Button>
         </SignUpForm>
       </CardLayout>
-      <ToHomeButton />
     </React.Fragment>
   );
 }
@@ -81,6 +79,7 @@ const CardLayout = styled(Card)`
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
   border-radius: 30px;
+  font-family: "Noto Sans KR", sans-serif;
 `;
 
 const SignUpForm = styled.form`
