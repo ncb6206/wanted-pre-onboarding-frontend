@@ -1,28 +1,20 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { Button, Card } from "antd";
+import { Button } from "antd";
 
 export default function HomePage() {
   return (
     <React.Fragment>
       <CardLayout>
-        <Link to="https://github.com/ncb6206/">
-          <LogoImg
-            src="https://camo.githubusercontent.com/610a398f79b84273e9306ec9f58eeebb25aa7b8bab5563ceb3448646a5be4ebd/68747470733a2f2f63617073756c652d72656e6465722e76657263656c2e6170702f6170693f747970653d7472616e73706172656e7426636f6c6f723d6175746f26637573746f6d436f6c6f724c6973743d3236266865696768743d3135302673656374696f6e3d68656164657226746578743d497427732532304e6125323047697468756226666f6e7453697a653d393026616e696d6174696f6e3d66616465496e"
-            alt="Na Github"
-          />
-        </Link>
-        <P>TodoList</P>
+        <H1>TodoList</H1>
+        <P>
+          시작하기 버튼을 눌러 <br />
+          투두리스트를 시작해보세요!
+        </P>
         <ButtonDiv>
-          <Link to={`signin`}>
-            <Button>로그인</Button>
-          </Link>
-          <Link to={`signup`}>
-            <Button>회원가입</Button>
-          </Link>
           <Link to={`todo`}>
-            <Button>투두리스트</Button>
+            <Button>시작하기</Button>
           </Link>
         </ButtonDiv>
       </CardLayout>
@@ -30,15 +22,27 @@ export default function HomePage() {
   );
 }
 
-const CardLayout = styled(Card)`
+const CardLayout = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #ffffff;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
-  border-radius: 30px;
+`;
+
+const H1 = styled.h1`
+  text-align: center;
+  font-size: 6rem;
+  margin: 15px 0;
+  font-family: "Black Han Sans", sans-serif;
+  color: #57648c;
+`;
+
+const P = styled.p`
+  text-align: center;
+  font-size: 3rem;
+  margin: 15px 0;
+  font-family: "Black Han Sans", sans-serif;
 `;
 
 const ButtonDiv = styled.div`
@@ -46,6 +50,7 @@ const ButtonDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 1rem;
   gap: 15px;
 
   Button {
@@ -53,17 +58,4 @@ const ButtonDiv = styled.div`
     height: 50px;
     font-size: 30px;
   }
-`;
-
-const LogoImg = styled.img`
-  display: block;
-  width: 400px;
-  height: 10vh;
-  margin: 0 auto;
-`;
-
-const P = styled.p`
-  text-align: center;
-  font-size: 25px;
-  margin: 30px 0;
 `;
