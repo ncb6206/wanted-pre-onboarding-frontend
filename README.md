@@ -66,3 +66,9 @@ Top-down 방식을 사용하여 프로젝트의 전체적인 구조를 먼저 �
 | 기타 라이브러리 | <img src="https://img.shields.io/badge/react router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=black"><img src="https://img.shields.io/badge/Emotion-DB7093?style=for-the-badge&logo=emotion"><img src="https://img.shields.io/badge/antdesign-0170FE?style=for-the-badge&logo=antdesign"><img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios"> |
 | 패키지 관리     | <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm">                                                                                                                                                                                                                                                                                                          |
 | 배포            | <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws">                                                                                                                                                                                                                                                                                              |
+
+
+## ETC
+
+같은 주제로 프론트엔드 개발자 5명이서 협업을 진행하였습니다.
+- [**`팀깃허브 링크`**](https://github.com/wanted-pre-onboarding-team12/pre-onboarding-11th-1-12)
