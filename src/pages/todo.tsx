@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { Button, Card, Input, Modal } from "antd";
-import ToHomeButton from "components/toHome";
 import TodoListPage from "components/TodoList";
 import useInput from "hooks/useInput";
 import React, { useCallback, useEffect, useState } from "react";
@@ -14,7 +13,7 @@ export default function TodoPage() {
   const getTodos = useCallback(async () => {
     const response: any = await getTodo();
 
-    console.log(response);
+    // console.log(response);
     if (response.status === 200) {
       setTodoList(response.data);
     }
@@ -23,7 +22,7 @@ export default function TodoPage() {
   const onSubmitTodo = useCallback(async () => {
     const response: any = await postTodo({ todo });
 
-    console.log(response);
+    // console.log(response);
     if (response.status === 201) {
       Modal.success({ content: "투두리스트가 작성되었습니다." });
       setTodo("");
@@ -39,8 +38,8 @@ export default function TodoPage() {
     <React.Fragment>
       <CardLayout>
         <P>TodoList</P>
-        <TodoInput>
-          <Input
+        <TodoInputDiv>
+          <TodoInput
             data-testid="new-todo-input"
             type="text"
             value={todo}
@@ -49,7 +48,7 @@ export default function TodoPage() {
           <Button data-testid="new-todo-add-button" onClick={onSubmitTodo}>
             추가
           </Button>
-        </TodoInput>
+        </TodoInputDiv>
         <TodoList>
           {todoList && (
             <Ul>
@@ -67,7 +66,6 @@ export default function TodoPage() {
           )}
         </TodoList>
       </CardLayout>
-      <ToHomeButton />
     </React.Fragment>
   );
 }
@@ -80,14 +78,20 @@ const CardLayout = styled(Card)`
   align-items: center;
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  font-family: "Noto Sans KR", sans-serif;
 `;
 
-const TodoInput = styled.div`
+const TodoInputDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  margin-top: 1rem;
+`;
+
+const TodoInput = styled(Input)`
+  width: 26rem;
 `;
 
 const TodoList = styled.div`
