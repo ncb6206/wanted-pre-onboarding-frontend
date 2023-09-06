@@ -1,11 +1,11 @@
 import Layout from "components/common/Layout";
 import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
-import SignUpPage from "pages/Signup";
 import SignInPage from "pages/Signin";
 import TodoPage from "pages/Todo";
 import HomePage from "pages/Home";
 import ErrorPage from "pages/ErrorPage";
+import SignUpPage from "pages/Signup";
 
 const Router = () => {
   return (
